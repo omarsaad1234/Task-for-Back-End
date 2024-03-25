@@ -1,0 +1,89 @@
+﻿@model Task_for_Back_End.Models.InvoiceDetail
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>Invoice Details</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            
+            <div class="form-group">
+                <label asp-for="InvoiceHeader!.CustomerName" class="control-label"></label>
+                <input id="CustomerName" asp-for="InvoiceHeader!.CustomerName" class="form-control" />
+                <span asp-validation-for="InvoiceHeader!.CustomerName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="InvoiceHeader!.InvoiceDate" class="control-label"></label>
+                <input id="InvDate" asp-for="InvoiceHeader!.InvoiceDate" class="form-control" />
+                <span asp-validation-for="InvoiceHeader!.InvoiceDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ItemName" class="control-label"></label>
+                <input id="ItemName" asp-for="ItemName" class="form-control" />
+                <span asp-validation-for="ItemName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ItemCount" class="control-label"></label>
+                <input id="ItemCount" asp-for="ItemCount" class="form-control" />
+                <span asp-validation-for="ItemCount" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ItemPrice" class="control-label"></label>
+                <input id="ItemPrice" asp-for="ItemPrice" class="form-control" />
+                <span asp-validation-for="ItemPrice" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label>Branch</label>
+                <select id="BranchID" asp-for="InvoiceHeader!.BranchID" class="form-control" asp-items="ViewBag.Branch"></select>
+            </div>
+            <div class="form-group">
+                <label>Cashier</label>
+                <select id="CashierID" asp-for="InvoiceHeader!.CashierID" class="form-control" ></select>
+            </div>
+            
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+        $(document).ready(function(){
+            $('#BranchID').on('change', function () {
+                var BranchID=($(this).val());
+
+                var cashierList = $('#CashierID');
+
+                cashierList.empty();
+                cashierList.append('<option></option>');
+
+                if (BranchID !== '') {
+                    $.ajax({
+                        url: '/Invoice/GetCashiers?BranchID=' + BranchID,
+                        success: function (cashiers) {
+                            $.each(cashiers, function (i, cashier) {
+                                cashierList.append($('<option></option>').attr('value', cashier.id).text(cashier.cashierName));
+                            });
+                        },
+                        error: function () {
+                            alert('somthing went wrong');
+                        }
+                    })
+                }
+            })
+        })
+    </script>
+}

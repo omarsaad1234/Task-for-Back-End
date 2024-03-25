@@ -1,0 +1,86 @@
+﻿@model IEnumerable<Task_for_Back_End.Models.InvoiceDetail>
+
+@{
+    ViewData["Title"] = "Index";
+    var Total = 0.0;
+}
+
+<h1>All Invoices</h1>
+
+
+<p>
+    <a asp-action="Create">Create New Invoice</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Invoice No
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.InvoiceHeader!.InvoiceDate)
+            </th>
+            <th>
+                Customer
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ItemName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ItemCount)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ItemPrice)
+            </th>
+            <th>
+                Sub Total
+            </th>
+            <th>
+                Branch
+            </th>
+            <th>
+               Cashier
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+            Total = item.ItemCount * item.ItemPrice;
+            <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.InvoiceHeaderID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.InvoiceHeader!.InvoiceDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.InvoiceHeader!.CustomerName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ItemName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ItemCount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ItemPrice)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => Total)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.InvoiceHeader!.Branch!.BranchName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.InvoiceHeader!.Cashier!.CashierName)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.InvoiceHeaderID">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.InvoiceHeaderID">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.InvoiceHeaderID">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

@@ -1,0 +1,99 @@
+﻿@model IEnumerable<Task_for_Back_End.Models.InvoiceDetail>
+
+@{
+    ViewData["Title"] = "Details";
+    var SubTotal=0.0;
+    var Total = 0.0;
+    var invoice = Model.FirstOrDefault(i => i.ID != 0)!;
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Invoice Details</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            Invoice No
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => invoice.InvoiceHeader!.ID)
+        </dd>
+        <dt class="col-sm-2">
+            Invoice Date
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => invoice.InvoiceHeader!.InvoiceDate)
+        </dd>
+        <dt class="col-sm-2">
+            Customer
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => invoice.InvoiceHeader!.CustomerName)
+        </dd>
+        <dt class="col-sm-2">
+            Branch
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => invoice.InvoiceHeader!.Branch!.BranchName)
+        </dd>
+        <dt class="col-sm-2">
+            Cashier
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => invoice.InvoiceHeader!.Cashier!.CashierName)
+        </dd>
+    </dl>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.ItemName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ItemCount)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ItemPrice)
+                </th>
+                <th>
+                    Sub Total
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                SubTotal = item.ItemPrice * item.ItemCount;
+                Total += SubTotal;
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ItemName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ItemCount)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ItemPrice)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => SubTotal)
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <dl class="row">
+        <dt class="col-sm-2">
+           Total
+        </dt>
+        <dt class="col-sm-10">
+            @Html.DisplayFor(model => Total)
+        </dt>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.FirstOrDefault(i=>i.ID!=0)!.InvoiceHeaderID">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>
