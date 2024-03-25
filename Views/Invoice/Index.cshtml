@@ -2,7 +2,8 @@
 
 @{
     ViewData["Title"] = "Index";
-    var Total = 0.0;
+    var SubTotal = 0.0;
+    
 }
 
 <h1>All Invoices</h1>
@@ -46,7 +47,7 @@
     </thead>
     <tbody>
 @foreach (var item in Model) {
-            Total = item.ItemCount * item.ItemPrice;
+            SubTotal = item.ItemCount * item.ItemPrice;
             <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.InvoiceHeaderID)
@@ -67,7 +68,7 @@
                 @Html.DisplayFor(modelItem => item.ItemPrice)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => Total)
+                @Html.DisplayFor(modelItem => SubTotal)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.InvoiceHeader!.Branch!.BranchName)

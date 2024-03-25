@@ -61,7 +61,7 @@ namespace Task_for_Back_End.Migrations
                         column: x => x.BranchID,
                         principalTable: "Branches",
                         principalColumn: "ID",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(

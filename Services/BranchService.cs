@@ -1,4 +1,5 @@
-﻿using Task_for_Back_End.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using Task_for_Back_End.Models;
 
 namespace Task_for_Back_End.Services
 {
@@ -11,10 +12,10 @@ namespace Task_for_Back_End.Services
         }
         public IEnumerable<Branch> AllBranches()
         {
-            return _context.Branches;
+            return _context.Branches.OrderBy(b=>b.BranchName).Include(b=>b.City).ToList();
         }
 
-        public Branch GetByHeaderId(int id)
+        public Branch GetById(int id)
         {
             return _context.Branches.FirstOrDefault(b => b.ID == id)!;
         }

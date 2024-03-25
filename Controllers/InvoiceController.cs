@@ -151,6 +151,7 @@ namespace Task_for_Back_End.Controllers
                 {
                     _invoiceDetailService.Delete(item.ID);
                 }
+                _invoiceHeaderService.Delete(id);
                 return RedirectToAction("Index");
             }
             catch
